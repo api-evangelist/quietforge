@@ -1,23 +1,62 @@
 aid: quietforge
+
 name: Quietforge Docs API (Quietforge Studio)
-description: 'Quietforge Docs API (Quietforge Studio) is a company surfaced via the API Evangelist harvest
-  backlog (source: new-submission) and added to the network as a stub for full-pipeline profiling.'
+
+description: 'Quietforge Docs API (Quietforge Studio) provides a suite of AI‑run document processing services hosted on Cloudflare Workers. It offers endpoints for converting documents between formats, extracting PDF text, rendering web pages to images or PDFs, generating Sudoku puzzles and books, and advanced typesetting of manuscripts. Pricing is per‑call, with transparent USD rates, and includes a searchable index of x402 pay‑per‑call services on Base blockchain. The platform emphasizes developer-friendly JSON APIs and integrates with on‑chain payment protocols.'
+
 url: https://raw.githubusercontent.com/api-evangelist/quietforge/refs/heads/main/apis.yml
+
 x-type: company
+
 x-source: harvest:new-submission
-x-tier: stub
-x-tier-reason: harvest
+
+x-tier: profiled
+x-tier-reason: enrichment pass 2026-09-27 (modular-v1; was harvest)
+
 specificationVersion: '0.20'
+
 created: '2026-09-27'
+
 modified: '2026-09-27'
+
 tags:
-- Company
-apis: []
+- AI
+- DocumentProcessing
+- CloudflareWorkers
+- SaaS
+- BusinessAutomation
+
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
+
 common:
+- type: Hosts
+  url: hosts/quietforge-hosts.yml
+- type: Vendors
+  url: vendors/quietforge-vendors.yml
+- type: DomainSecurity
+  url: security/quietforge-domain-security.yml
 - type: Website
+  url: https://quietforge.studio/
+- type: Documentation
   url: https://qf-api.quietforge-studio.workers.dev/
+
+apis: []
+
+x-coverage:
+  state: unreadable
+  reason: js-rendered-docs
+  detail: The provider's documentation site returns HTML and no machine‑readable OpenAPI or other contract files were found.
+  evidence:
+    - url: https://quietforge.studio/
+      status: 200
+  checked: '2026-09-28'
+x-enrichment:
+  date: '2026-09-27'
+  status: enriched
+  artifacts_added: 4
+  pass: modular-v1
+  engine: identity=local,contract=local,surfaces=local,docs=local,regulatory=local

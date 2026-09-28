@@ -1,0 +1,46 @@
+generated: '2026-09-28'
+method: derived
+source: the pre-flight dossier, apis.yml pointers, spec servers, well-known, vendors -- nothing fetched here
+generator: derive-hosts.py
+summary:
+  hosts: 3
+  own: 2
+  other_domain: 0
+  platform: 1
+  roles:
+  - api
+  - docs
+  - website
+hosts:
+- host: api.quietforge.studio
+  found_by:
+  - contract-discovery
+  types: []
+  serves: []
+  registrable_domain: quietforge.studio
+  role: api
+  relation: own
+- host: qf-api.quietforge-studio.workers.dev
+  found_by:
+  - pointer
+  types:
+  - Documentation
+  serves: []
+  registrable_domain: workers.dev
+  role: docs
+  relation: platform
+- host: quietforge.studio
+  found_by:
+  - pointer
+  - probed
+  - contract-discovery
+  - well-known
+  - vendor-detect
+  types:
+  - Website
+  serves:
+  - cdn
+  vendor: cloudflare
+  registrable_domain: quietforge.studio
+  role: website
+  relation: own

@@ -1,0 +1,16 @@
+generated: '2026-09-27'
+method: probed
+source: live DNS/TLS/HTTP probes of apis.yml + OpenAPI hosts
+hosts:
+- host: quietforge.studio
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Dec 18 06:30:42 2026 GMT
+  hsts: false
+domains:
+- domain: quietforge.studio
+  dnssec: false
+  caa: []
+  spf: true
+  dmarc: true
+  dmarc_policy: none
