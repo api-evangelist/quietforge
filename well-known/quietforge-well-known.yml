@@ -1,16 +1,16 @@
-generated: '2026-09-28'
+generated: '2026-10-03'
 method: probed
-generator: harvest-well-known.py
-source: Live GET of the named /.well-known/ path list on every host the record knows; every row is a request that
-  was issued.
+generator: harvest-well-known.py (probe_host) + hand-added rows
+source: Live GET of the named /.well-known/ path list on qf-api.quietforge-studio.workers.dev (the provider host on the workers.dev
+  platform, which the batch script skips as a platform host), run by hand 2026-10-03, plus the three provider-specific /.well-known/
+  documents its apis.json names.
 summary:
-  hosts_probed: 2
-  paths_probed: 22
-  documents_served: 0
+  hosts_probed: 1
+  paths_probed: 11
+  documents_served: 4
 hosts:
-- host: quietforge.studio
+- host: qf-api.quietforge-studio.workers.dev
   control:
-    path: /.well-known/apis-io-negative-control-7f3ab91c.json
     status: 404
     bytes: 0
   documents:
@@ -27,8 +27,10 @@ hosts:
     status: 404
     standard: RFC 9728
   - path: /.well-known/api-catalog
-    status: 404
+    status: 200
     standard: RFC 9727
+    content_type: application/linkset+json
+    file: quietforge-api-catalog.json
   - path: /.well-known/apis.json
     status: 404
     standard: APIs.json
@@ -47,53 +49,24 @@ hosts:
   - path: /.well-known/mcp/server-card.json
     status: 404
     standard: MCP server card
-- host: api.quietforge.studio
-  control:
-    path: /.well-known/apis-io-negative-control-7f3ab91c.json
-    status: null
-    bytes: 0
-  documents:
-  - path: /.well-known/security.txt
-    status: null
-    standard: RFC 9116
-    note: 'unreachable: URLError'
-  - path: /.well-known/openid-configuration
-    status: null
-    standard: OpenID Connect Discovery 1.0
-    note: 'unreachable: URLError'
-  - path: /.well-known/oauth-authorization-server
-    status: null
-    standard: RFC 8414
-    note: 'unreachable: URLError'
-  - path: /.well-known/oauth-protected-resource
-    status: null
-    standard: RFC 9728
-    note: 'unreachable: URLError'
-  - path: /.well-known/api-catalog
-    status: null
-    standard: RFC 9727
-    note: 'unreachable: URLError'
-  - path: /.well-known/apis.json
-    status: null
-    standard: APIs.json
-    note: 'unreachable: URLError'
-  - path: /.well-known/ai-plugin.json
-    status: null
-    standard: OpenAI plugin manifest
-    note: 'unreachable: URLError'
-  - path: /.well-known/aauth-resource.json
-    status: null
-    standard: AAuth
-    note: 'unreachable: URLError'
-  - path: /.well-known/ucp.json
-    status: null
-    standard: UCP
-    note: 'unreachable: URLError'
-  - path: /.well-known/acp.json
-    status: null
-    standard: ACP
-    note: 'unreachable: URLError'
-  - path: /.well-known/mcp/server-card.json
-    status: null
-    standard: MCP server card
-    note: 'unreachable: URLError'
+  - path: /.well-known/x402
+    status: 200
+    standard: x402 resource-server manifest (x402Version 2)
+    content_type: application/json
+    file: quietforge-x402.json
+    note: not on the closed list; saved verbatim 2026-10-03 (16 paid resources, USDC on Base)
+  - path: /.well-known/ard.json
+    status: 200
+    standard: Agent Resource Descriptor (specVersion 1.0)
+    content_type: application/json
+    file: quietforge-ard.json
+    note: not on the closed list; saved verbatim 2026-10-03 (17 entries incl. the MCP server card)
+  - path: /.well-known/agent.json
+    status: 200
+    standard: provider-defined agent descriptor (version 1.3; payments + intents)
+    content_type: application/json
+    file: quietforge-agent.json
+    note: not on the closed list and not an A2A agent card (no skills array); the provider apis.json labels it AgentCard.
+      Saved verbatim 2026-10-03. /.well-known/agent-card.json is 404.
+note: quietforge-studio.pages.dev (the website, on Cloudflare Pages) was not probed for the closed list. The earlier index
+  probed quietforge.studio, an unrelated company, and was replaced.

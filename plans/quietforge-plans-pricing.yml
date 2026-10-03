@@ -1,0 +1,109 @@
+name: Quietforge Studio Plans
+generated: '2026-10-03'
+method: probed
+source: https://qf-api.quietforge-studio.workers.dev/apis.json
+audience: developer-api
+pricing_basis: per-call
+published: true
+currency: USDC
+delivery:
+  delivery: managed
+note: 'Per-call prices quoted verbatim from the Pricing property descriptions in the provider apis.json; each amount matches
+  the x402 manifest at /.well-known/x402 (USDC, 6 decimals, network eip155:8453, scheme exact). No subscriptions or tiers.
+  Free: POST /v1/dataset-audit/preview, GET /v1/samples and the MCP server tools.'
+plans:
+- name: POST /v1/convert
+  description: 'Convert a document with LibreOffice: text documents (docx, doc, odt, rtf, txt, md, html) -> pdf, docx, odt,
+    html, txt, png; spreadsheets (xlsx, xls, ods, csv) -> pdf, xlsx, ods, csv, png; presentation'
+  price: 0.02
+  price_text: POST /v1/convert - $0.02 per call
+  billing_period: per call
+- name: POST /v1/pdf/text
+  description: Extract text per page from a PDF (plus metadata) as JSON. Digital PDFs only, no OCR.
+  price: 0.005
+  price_text: POST /v1/pdf/text - $0.005 per call
+  billing_period: per call
+- name: POST /v1/render
+  description: Render a public URL or an HTML string in headless Chromium and return a PNG, JPEG or PDF (base64). Viewport,
+    full-page, device scale and paper size are caller-controlled.
+  price: 0.01
+  price_text: POST /v1/render - $0.01 per call
+  billing_period: per call
+- name: GET /v1/x402/services
+  description: 'Searchable directory of live x402 pay-per-call endpoints, re-crawled every few hours (each agent shift) from
+    the Coinbase CDP and PayAI bazaars and health-probed by us: status code, latency, alive fla'
+  price: 0.005
+  price_text: GET /v1/x402/services - $0.005 per call
+  billing_period: per call
+- name: GET /v1/x402/services/{id}
+  description: 'One endpoint from the index plus its last 20 health samples (status code, latency, alive) and its uptime across
+    those probes — our own probe history, not upstream metadata. Aggregated from the public '
+  price: 0.002
+  price_text: GET /v1/x402/services/{id} - $0.002 per call
+  billing_period: per call
+- name: GET /v1/x402/demand
+  description: 'Settlement-verified demand for x402 endpoints: for each indexed seller we read USDC Transfer logs on Base
+    over 24h and count only transfers matching a price that address actually lists, giving real pa'
+  price: 0.02
+  price_text: GET /v1/x402/demand - $0.02 per call
+  billing_period: per call
+- name: POST /v1/sudoku
+  description: 'Generate 1-20 classic 9x9 sudoku puzzles with a proven-unique solution, 180-degree symmetric givens and a
+    technique grade (easy/medium/hard/expert) decided by a human-style solver, not by clue count. '
+  price: 0.01
+  price_text: POST /v1/sudoku - $0.01 per call
+  billing_period: per call
+- name: POST /v1/sudoku/book
+  description: 'Build a finished, print-ready sudoku book (30-60 puzzles): title page with the name and dedication you supply,
+    how-to-solve page, puzzles grouped by level with section dividers, solutions at the back;'
+  price: 3.99
+  price_text: POST /v1/sudoku/book - $3.99 per call
+  billing_period: per call
+- name: POST /v1/typeset/outline
+  description: 'Detect the structure of a book manuscript before typesetting it: the chapter list our engine will use (numbered
+    / unnumbered), words and scene breaks per chapter, paragraph count, characters the book '
+  price: 0.01
+  price_text: POST /v1/typeset/outline - $0.01 per call
+  billing_period: per call
+- name: POST /v1/typeset
+  description: 'Typeset a prose manuscript into a print-ready book interior: zip (base64) with the interior PDF at your trim
+    (5x8, 5.25x8, 5.5x8.5, 6x9, A5), mirrored margins, KDP-minimum gutter, running heads, page '
+  price: 7.99
+  price_text: POST /v1/typeset - $7.99 per call
+  billing_period: per call
+- name: POST /v1/crossword
+  description: 'Lay out 8-30 clue/answer pairs into one connected freeform crossword (no black squares) and return it as JSON:
+    the letter grid, every slot with row/col/direction, standard row-major crossword numberin'
+  price: 0.02
+  price_text: POST /v1/crossword - $0.02 per call
+  billing_period: per call
+- name: POST /v1/crossword/pdf
+  description: 'The same verified crossword as print-ready PDFs: puzzle page (title, subtitle, numbered grid, Across/Down
+    clues) plus an answer-key page, in 8x10 in (frame-ready, 0.6 in margins), A4 and US Letter, cl'
+  price: 3.99
+  price_text: POST /v1/crossword/pdf - $3.99 per call
+  billing_period: per call
+- name: POST /v1/familytree
+  description: 'Lay out a family tree as a descendant, ancestor or hourglass chart from people+families JSON or a GEDCOM file
+    (up to 400 people, 10 generations) and return the chart as JSON: each person box with gene'
+  price: 0.02
+  price_text: POST /v1/familytree - $0.02 per call
+  billing_period: per call
+- name: POST /v1/familytree/pdf
+  description: 'The same verified chart as print-ready PDFs: 24x36 in and A3 single-sheet posters (chart scaled to fill, generation
+    labels, footer), plus US Letter and A4 files with a one-page overview, readable tile'
+  price: 4.99
+  price_text: POST /v1/familytree/pdf - $4.99 per call
+  billing_period: per call
+- name: POST /v1/dataset-audit
+  description: 'Audit a CSV/JSON-array dataset (max 5 MB, 50k rows, 200 cols, 2M cells) returning a JSON data-quality report:
+    duplicate rows, per-column missing values, inferred types, class imbalance, IQR outliers, '
+  price: 0.03
+  price_text: POST /v1/dataset-audit - $0.03 per call
+  billing_period: per call
+- name: POST /v1/dataset-audit/pdf
+  description: The same data-quality audit as a compact PDF summary (score, top issues, a per-column table, PII-pattern flags;
+    usually one page, more for wide datasets) zipped with report.json and returned as base64
+  price: 1.99
+  price_text: POST /v1/dataset-audit/pdf - $1.99 per call
+  billing_period: per call

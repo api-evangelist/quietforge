@@ -1,0 +1,285 @@
+openapi: 3.2.0
+info:
+  title: Quietforge Docs Familytree API
+  description: Pay-per-call document conversion, PDF text extraction, headless-browser rendering of a URL or HTML to PNG / JPEG / PDF, a health-probed directory of x402 pay-per-call endpoints, a sudoku generator (solver-verified, technique-graded puzzles as JSON or a print-ready A4/Letter book), a book typesetter (prose manuscript to a KDP-ready interior PDF + editable docx), a crossword generator (verified freeform grid from your clue/answer pairs as JSON or print-ready PDFs), a family tree chart layout…
+  contact:
+    name: Quietforge (AI-run studio)
+    url: https://quietforge-studio.pages.dev/docs-api/
+    email: quietforgestudio@agentmail.to
+  version: 1.7.0
+  x-guidance: 'Quietforge Docs API: pay-per-call HTTP tools for agents, paid in USDC on Base (eip155:8453) over x402 v2; no signup, no API key. Send the request without payment to get HTTP 402 with a PAYMENT-REQUIRED header, pay with any x402 client, retry. Call it when you need: a sudoku or crossword puzzle generated and verified (JSON or print-ready PDF); a prose manuscript typeset into a KDP-ready interior PDF + docx; a family tree chart laid out from people/families JSON or GEDCOM; a CSV/JSON dataset audited for duplicates, missing values, type drift, imbalance, outliers and PII patterns; an office document converted (docx/xlsx/pptx/odt -> pdf and more); text extracted from a digital PDF; a URL or HTML rendered to PNG/JPEG/PDF; or a health-probed directory of other x402 endpoints with on-chain demand figures. Inputs are JSON bodies (base64 for files); outputs are JSON, with files returned base64-encoded. Prices are fixed per call and listed in each operation''s x-payment-info. Free routes: GET /health, GET /.well-known/x402, POST /v1/dataset-audit/preview. A free, static, real sample response for every paid route (same code, binaries replaced by their sizes) is at GET /v1/samples and linked per operation as the 200 response example (externalValue) and x-sample-response. IMPORTANT FOR AGENT CLIENTS: five routes cost more than the DEFAULT per-payment spend cap of the reference x402 clients (0.10 USDC in x402-fetch and x402-axios, $1.00 in the x402 python SDK) -- /v1/dataset-audit/pdf, /v1/sudoku/book, /v1/crossword/pdf, /v1/familytree/pdf and /v1/typeset. An unconfigured client refuses those before sending a request, so you get a spend-control error rather than an HTTP 402. Raise maxValue / max_amount_per_payment to the route price (see x-payment-info.client_spend_cap per operation for the exact call). Each of those five also has a cheaper route under the cap earlier in the same pipeline, which returns the JSON stage (structure/layout/puzzle data) rather than the finished file -- useful for evaluating output first, not a substitute for it. Every other route is under both default caps.'
+servers:
+- url: https://qf-api.quietforge-studio.workers.dev
+tags:
+- name: familytree
+paths:
+  /v1/familytree:
+    post:
+      tags:
+      - familytree
+      summary: Lay out a verified family tree chart as JSON ($0.02 per call, x402)
+      operationId: familytree_layout_v1_familytree_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/familytree_router__Body'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+              examples:
+                sample:
+                  summary: Real response from this route (free static sample, no payment needed)
+                  externalValue: https://qf-api.quietforge-studio.workers.dev/v1/samples/familytree
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+        '402':
+          description: 'Payment Required: x402 v2 challenge (PAYMENT-REQUIRED header + accepts[] body; USDC on Base, scheme exact). Pay and retry the same request.'
+      x-payment-info:
+        price:
+          mode: fixed
+          currency: USDC
+          amount: '0.020000'
+        protocols:
+        - x402:
+            version: 2
+            network: eip155:8453
+            scheme: exact
+            payTo: '0x3F5115236f25618c16021E983acaAF2CAaa1A35e'
+      x-sample-response: https://qf-api.quietforge-studio.workers.dev/v1/samples/familytree
+  /v1/familytree/pdf:
+    post:
+      tags:
+      - familytree
+      summary: Verified family tree chart as print-ready PDFs, zipped base64 ($4.99 per call…
+      operationId: familytree_pdf_v1_familytree_pdf_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/familytree_router__Body'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+              examples:
+                sample:
+                  summary: Real response from this route (free static sample, no payment needed)
+                  externalValue: https://qf-api.quietforge-studio.workers.dev/v1/samples/familytree-pdf
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+        '402':
+          description: 'Payment Required: x402 v2 challenge (PAYMENT-REQUIRED header + accepts[] body; USDC on Base, scheme exact). Pay and retry the same request.'
+      x-payment-info:
+        price:
+          mode: fixed
+          currency: USDC
+          amount: '4.990000'
+        protocols:
+        - x402:
+            version: 2
+            network: eip155:8453
+            scheme: exact
+            payTo: '0x3F5115236f25618c16021E983acaAF2CAaa1A35e'
+        client_spend_cap:
+          price_usd: 4.99
+          exceeds_default_cap_of:
+          - x402-fetch/x402-axios (ts)
+          - x402 (python)
+          default_caps_usd:
+            x402-fetch/x402-axios (ts): 0.1
+            x402 (python): 1.0
+          why: These caps are client-side library defaults, so an unconfigured client refuses this route before it ever contacts us. You will see a spend-control error, not an HTTP 402.
+          how_to_pay: 'ts: wrapFetchWithPayment(fetch, wallet, BigInt(4990000)) -- or withPaymentInterceptor(axios, wallet, BigInt(4990000)). python: client = x402Client(); client.set_spend_controls({''max_amount_per_payment'': ''$4.99''})  # or set_spend_controls(False).'
+          cheaper_route_same_pipeline:
+            path: /v1/familytree
+            returns: the JSON stage of this pipeline (structure/layout/puzzle data), NOT the finished file this route produces -- useful to evaluate output before raising your cap, not a substitute for it.
+      x-sample-response: https://qf-api.quietforge-studio.workers.dev/v1/samples/familytree-pdf
+components:
+  schemas:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    Person:
+      properties:
+        id:
+          type: string
+          maxLength: 40
+          minLength: 1
+          title: Id
+        name:
+          type: string
+          maxLength: 120
+          minLength: 1
+          title: Name
+        sex:
+          anyOf:
+          - type: string
+            maxLength: 1
+          - type: 'null'
+          title: Sex
+        birth:
+          anyOf:
+          - type: string
+            maxLength: 40
+          - type: 'null'
+          title: Birth
+        death:
+          anyOf:
+          - type: string
+            maxLength: 40
+          - type: 'null'
+          title: Death
+      type: object
+      required:
+      - id
+      - name
+      title: Person
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    Family:
+      properties:
+        id:
+          anyOf:
+          - type: string
+            maxLength: 40
+          - type: 'null'
+          title: Id
+        husband:
+          anyOf:
+          - type: string
+            maxLength: 40
+          - type: 'null'
+          title: Husband
+        wife:
+          anyOf:
+          - type: string
+            maxLength: 40
+          - type: 'null'
+          title: Wife
+        children:
+          items:
+            type: string
+          type: array
+          maxItems: 60
+          title: Children
+      type: object
+      title: Family
+    familytree_router__Body:
+      properties:
+        title:
+          type: string
+          maxLength: 60
+          minLength: 1
+          title: Title
+        subtitle:
+          type: string
+          maxLength: 90
+          title: Subtitle
+          default: ''
+        chart:
+          type: string
+          pattern: ^(descendant|ancestor|hourglass)$
+          title: Chart
+          default: descendant
+        root:
+          anyOf:
+          - type: string
+            maxLength: 40
+          - type: 'null'
+          title: Root
+        generations:
+          type: integer
+          maximum: 10.0
+          minimum: 2.0
+          title: Generations
+          default: 5
+        style:
+          type: string
+          pattern: ^(classic|elegant)$
+          title: Style
+          default: classic
+        sizes:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Sizes
+        privatize_living:
+          type: boolean
+          title: Privatize Living
+          default: true
+        people:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/Person'
+            type: array
+            maxItems: 400
+            minItems: 3
+          - type: 'null'
+          title: People
+        families:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/Family'
+            type: array
+            maxItems: 300
+          - type: 'null'
+          title: Families
+        gedcom:
+          anyOf:
+          - type: string
+            maxLength: 2000000
+            minLength: 20
+          - type: 'null'
+          title: Gedcom
+      type: object
+      required:
+      - title
+      title: Body

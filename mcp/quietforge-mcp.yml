@@ -1,0 +1,77 @@
+generated: '2026-10-03'
+method: probed
+status: published
+source:
+- https://qf-api.quietforge-studio.workers.dev/mcp
+- https://qf-api.quietforge-studio.workers.dev/apis.json
+- https://qf-api.quietforge-studio.workers.dev/.well-known/ard.json
+summary: 'One first-party remote MCP server (streamable HTTP) on the API host. initialize and tools/list answered anonymously
+  on 2026-10-03: 7 tools, which the server instructions describe as free and read-only (x402 directory search/detail/stats/demand,
+  a single live x402 probe of a public URL, one sudoku puzzle, and a listing of the paid x402 routes). The paid HTTP routes
+  are not exposed as MCP tools. Full tool list with inputSchemas saved verbatim in mcp/quietforge-tools.json.'
+deployment:
+  mode: remote
+  endpoint: https://qf-api.quietforge-studio.workers.dev/mcp
+  install: null
+  package: null
+  auth: none
+  verified: probed
+server:
+  name: quietforge-x402-tools
+  title: Quietforge x402 Tools
+  version: 1.2.1
+  transport: streamable-http
+  url: https://qf-api.quietforge-studio.workers.dev/mcp
+  protocol_version: '2025-06-18'
+  websiteUrl: https://quietforge-studio.pages.dev/docs-api/
+tools:
+- name: x402_search
+  description: Search a health-probed directory of live x402 pay-per-call HTTP endpoints on Base, Solana and other networks
+    (x402_index_stats gives the current count). Returns id, resource URL, method, network, USD price, description, 30-day
+    call/payer counts and our own uptime/probe data. Data is re-crawled a few times a day, not real-time. Quietforge operates
+    this directory and also operates some listed endpoints (source=quietforge) under the same per-host cap as every operator;
+    ordering is by 30-day usage, then liveness, then freshness, never by operator.
+  inputs:
+  - q
+  - network
+  - alive
+  - max_price_usd
+  - source
+  - limit
+  - offset
+- name: x402_service
+  description: One endpoint from the x402 service index by id (from x402_search), with its last 20 health probes (status code,
+    latency, alive) and uptime across them.
+  inputs:
+  - id
+- name: x402_index_stats
+  description: 'Summary of the x402 service index: totals, how many endpoints answered on the last probe, counts per network
+    and per source, and when the crawl ran.'
+  inputs: []
+- name: x402_demand
+  description: 'Market-level demand signal for the x402 ecosystem, verified against on-chain USDC settlement on Base rather
+    than self-reported call counts: how many seller addresses were paid in the last 24h, total USD settled, and the distribution
+    of sellers by payment count. Free and aggregate-only; the per-seller breakdown (distinct payers per address; payer counts
+    include sampler/grader wallets that pay many sellers once, so read them as an upper bound on customers) is the paid GET
+    /v1/x402/demand route. Refuses to answer rather than serve a stale snapshot.'
+  inputs: []
+- name: x402_probe
+  description: 'Make ONE live unpaid request to a public http(s) URL and report whether it is an x402 endpoint: status code,
+    latency, alive flag, whether a PAYMENT-REQUIRED challenge came back and the parsed USD price. GET only, except that a
+    URL already in the index is probed with its listed method. Public hosts only (redirects re-checked), delisted hosts never
+    contacted, results cached 60 s, 3 probes per host per 5 min and 30 per minute overall.'
+  inputs:
+  - url
+  - method
+- name: sudoku_puzzle
+  description: Generate ONE sudoku puzzle with a unique solution, 180-degree symmetry, graded by the solving techniques it
+    needs (easy | medium | hard | expert). Returns 81-char puzzle and solution strings (row by row, 0 = empty), given count
+    and technique list. Deterministic when a seed is supplied. 20 per minute shared by all clients.
+  inputs:
+  - level
+  - seed
+- name: quietforge_pricing
+  description: List Quietforge's paid x402 routes (document conversion, PDF text extraction, URL/HTML → PNG/JPEG/PDF rendering,
+    sudoku books, manuscript typesetting, x402 index JSON API) with USD prices, the pay-to address and network, and how an
+    x402 client pays. Free, read-only.
+  inputs: []

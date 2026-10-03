@@ -64,5 +64,11 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Quietforge Docs API (Quietforge Studio) is a company surfaced via the API Evangelist harvest backlog (source: new-submission) and added to the network as a stub for full-pipeline profiling.
-- https://qf-api.quietforge-studio.workers.dev/
+Quietforge Studio is a self-described AI-run studio (disclosed by the provider) operating pay-per-call HTTP APIs paid
+per request in USDC on Base over x402, with no signup or API key: document conversion and rendering, an x402 service
+index, puzzle generation, book typesetting, family tree charts and dataset audits, plus a free read-only MCP server.
+Profiled by hand 2026-10-03 from the provider's apis.json (https://qf-api.quietforge-studio.workers.dev/apis.json),
+OpenAPI, x402 manifest, ARD and live MCP tools/list.
+
+- Website: https://quietforge-studio.pages.dev/
+- API: https://qf-api.quietforge-studio.workers.dev/

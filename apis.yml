@@ -1,8 +1,13 @@
 aid: quietforge
 
-name: Quietforge Docs API (Quietforge Studio)
+name: Quietforge Studio
 
-description: 'Quietforge Docs API (Quietforge Studio) provides a suite of AI‑run document processing services hosted on Cloudflare Workers. It offers endpoints for converting documents between formats, extracting PDF text, rendering web pages to images or PDFs, generating Sudoku puzzles and books, and advanced typesetting of manuscripts. Pricing is per‑call, with transparent USD rates, and includes a searchable index of x402 pay‑per‑call services on Base blockchain. The platform emphasizes developer-friendly JSON APIs and integrates with on‑chain payment protocols.'
+description: 'Quietforge Studio is a self-described AI-run studio (disclosed by the provider in its apis.json, OpenAPI,
+  x402 manifest and MCP server) that operates pay-per-call HTTP APIs on a Cloudflare Worker: office-document conversion,
+  PDF text extraction, URL/HTML rendering, a health-probed index of x402 endpoints, sudoku and crossword generation,
+  book-interior typesetting, family tree chart layout and dataset quality audits. Authorization is a per-call x402
+  USDC payment on Base with no signup, account or API key; every paid route has a free static sample response, and
+  a free read-only MCP server exposes seven tools.'
 
 url: https://raw.githubusercontent.com/api-evangelist/quietforge/refs/heads/main/apis.yml
 
@@ -11,20 +16,33 @@ x-type: company
 x-source: harvest:new-submission
 
 x-tier: profiled
-x-tier-reason: enrichment pass 2026-09-27 (modular-v1; was harvest)
+x-tier-reason: hand-applied profile 2026-10-03 from the provider's apis.json (was a modular-v1 stub rooted on an unrelated domain)
+
+x-operator-disclosure:
+  operator: Quietforge (AI-run studio)
+  statement: The provider describes itself as an AI-operated studio, not a person or a registered company, and states this
+    on its site, in its OpenAPI contact, its x402 manifest (operator field), its ARD host displayName and its MCP server
+    instructions.
+  source:
+  - https://qf-api.quietforge-studio.workers.dev/apis.json
+  - https://qf-api.quietforge-studio.workers.dev/.well-known/x402
+  - https://quietforge-studio.pages.dev/about.html
+  recorded: '2026-10-03'
 
 specificationVersion: '0.20'
 
 created: '2026-09-27'
 
-modified: '2026-09-27'
+modified: '2026-10-03'
 
 tags:
 - AI
-- DocumentProcessing
-- CloudflareWorkers
-- SaaS
-- BusinessAutomation
+- Document Processing
+- x402
+- Micropayments
+- MCP
+- Pay Per Call
+- Cloudflare Workers
 
 maintainers:
 - FN: Kin Lane
@@ -39,21 +57,193 @@ common:
   url: vendors/quietforge-vendors.yml
 - type: DomainSecurity
   url: security/quietforge-domain-security.yml
+- type: MCPServer
+  url: mcp/quietforge-mcp.yml
+- type: Authentication
+  url: authentication/quietforge-authentication.yml
+- type: Plans
+  url: plans/quietforge-plans-pricing.yml
+- type: LLMsTxt
+  url: llms/quietforge-llms.txt
+- type: WellKnown
+  url: well-known/quietforge-well-known.yml
+- type: APICatalog
+  url: https://qf-api.quietforge-studio.workers.dev/.well-known/api-catalog
+- type: APIsJSON
+  url: https://qf-api.quietforge-studio.workers.dev/apis.json
+- type: AgenticAccess
+  url: https://qf-api.quietforge-studio.workers.dev/.well-known/x402
 - type: Website
-  url: https://quietforge.studio/
+  url: https://quietforge-studio.pages.dev/
+- type: DeveloperPortal
+  url: https://quietforge-studio.pages.dev/docs-api/
 - type: Documentation
-  url: https://qf-api.quietforge-studio.workers.dev/
+  url: https://qf-api.quietforge-studio.workers.dev/docs
+- type: OpenAPI
+  url: https://qf-api.quietforge-studio.workers.dev/openapi.json
+- type: Examples
+  url: https://qf-api.quietforge-studio.workers.dev/v1/samples
+- type: Contact
+  url: mailto:quietforgestudio@agentmail.to
 
-apis: []
+apis:
+- aid: quietforge:document-conversion-api
+  name: Quietforge Document Conversion API
+  description: >-
+    Converts Word, Excel, PowerPoint and OpenDocument files with LibreOffice (PDF is an output format, not an input; files capped at 15 MB), extracts per-page text and metadata from digital PDFs (no OCR), and renders a URL or an HTML string to PNG, JPEG or PDF in headless Chromium. Paid per call in USDC on Base over x402; no signup or API key.
+  humanURL: https://quietforge-studio.pages.dev/docs-api/
+  baseURL: https://qf-api.quietforge-studio.workers.dev
+  tags:
+  - Documents
+  - Conversion
+  - PDF
+  - Rendering
+  - Screenshots
+  properties:
+  - type: OpenAPI
+    url: openapi/quietforge-convert-api-openapi.yml
+  - type: OpenAPI
+    url: openapi/quietforge-pdf-api-openapi.yml
+  - type: OpenAPI
+    url: openapi/quietforge-render-api-openapi.yml
+  - type: Documentation
+    url: https://quietforge-studio.pages.dev/docs-api/
+  - type: Pricing
+    url: https://qf-api.quietforge-studio.workers.dev/.well-known/x402
+    description: >-
+      Pay per call in USDC on Base via x402. POST /v1/convert - $0.02 per call; POST /v1/pdf/text - $0.005 per call; POST /v1/render - $0.01 per call.
+- aid: quietforge:x402-service-index-api
+  name: Quietforge x402 Service Index API
+  description: >-
+    A searchable, health-probed index of live x402 pay-per-call endpoints re-crawled from the Coinbase CDP and PayAI bazaars, with per-endpoint probe history and settlement-verified demand read from USDC Transfer logs on Base. Quietforge operates the index and is listed in it under the same per-host cap as other operators.
+  humanURL: https://quietforge-studio.pages.dev/x402-index/
+  baseURL: https://qf-api.quietforge-studio.workers.dev
+  tags:
+  - x402
+  - Agents
+  - Discovery
+  - Payments
+  - Directory
+  properties:
+  - type: OpenAPI
+    url: openapi/quietforge-x402-index-api-openapi.yml
+  - type: Documentation
+    url: https://quietforge-studio.pages.dev/x402-index/
+  - type: Pricing
+    url: https://qf-api.quietforge-studio.workers.dev/.well-known/x402
+    description: >-
+      Pay per call in USDC on Base via x402. GET /v1/x402/services - $0.005 per call; GET /v1/x402/services/{id} - $0.002 per call; GET /v1/x402/demand - $0.02 per call.
+- aid: quietforge:puzzle-generation-api
+  name: Quietforge Puzzle Generation API
+  description: >-
+    Generates sudoku puzzles with a proven-unique solution and a technique grade, and connected freeform crosswords from 8-30 caller-supplied clue/answer pairs with a verifier. Deterministic per seed; returns JSON or print-ready PDFs (a 30-60 puzzle sudoku book, or a crossword page with answer key).
+  humanURL: https://quietforge-studio.pages.dev/docs-api/#sudoku
+  baseURL: https://qf-api.quietforge-studio.workers.dev
+  tags:
+  - Puzzles
+  - Sudoku
+  - Crossword
+  - PDF
+  - Print
+  properties:
+  - type: OpenAPI
+    url: openapi/quietforge-sudoku-api-openapi.yml
+  - type: OpenAPI
+    url: openapi/quietforge-crossword-api-openapi.yml
+  - type: Documentation
+    url: https://quietforge-studio.pages.dev/docs-api/#sudoku
+  - type: Pricing
+    url: https://qf-api.quietforge-studio.workers.dev/.well-known/x402
+    description: >-
+      Pay per call in USDC on Base via x402. POST /v1/sudoku - $0.01 per call; POST /v1/sudoku/book - $3.99 per call; POST /v1/crossword - $0.02 per call; POST /v1/crossword/pdf - $3.99 per call.
+- aid: quietforge:book-typesetting-api
+  name: Quietforge Book Typesetting API
+  description: >-
+    Typesets a prose manuscript into a print-ready book interior (chapter detection, mirrored margins, running heads, front matter and contents at 5x8, 5.25x8, 5.5x8.5, 6x9 or A5) delivered as a PDF, an editable .docx and a layout report, with a cheaper outline route that reports the chapter split first. Prose only; text is not rewritten.
+  humanURL: https://quietforge-studio.pages.dev/docs-api/#typeset
+  baseURL: https://qf-api.quietforge-studio.workers.dev
+  tags:
+  - Typesetting
+  - Publishing
+  - Books
+  - PDF
+  - DOCX
+  properties:
+  - type: OpenAPI
+    url: openapi/quietforge-typeset-api-openapi.yml
+  - type: Documentation
+    url: https://quietforge-studio.pages.dev/docs-api/#typeset
+  - type: Pricing
+    url: https://qf-api.quietforge-studio.workers.dev/.well-known/x402
+    description: >-
+      Pay per call in USDC on Base via x402. POST /v1/typeset/outline - $0.01 per call; POST /v1/typeset - $7.99 per call.
+- aid: quietforge:family-chart-api
+  name: Quietforge Family Tree Chart API
+  description: >-
+    Lays out a descendant, ancestor or hourglass family tree chart from people+families JSON or a GEDCOM file (up to 400 people, 10 generations), returned as verified layout JSON or as print-ready poster and tiled PDFs, with living people privatised by default.
+  humanURL: https://quietforge-studio.pages.dev/docs-api/
+  baseURL: https://qf-api.quietforge-studio.workers.dev
+  tags:
+  - Genealogy
+  - Family Tree
+  - Charts
+  - PDF
+  - Print
+  properties:
+  - type: OpenAPI
+    url: openapi/quietforge-familytree-api-openapi.yml
+  - type: Documentation
+    url: https://quietforge-studio.pages.dev/docs-api/
+  - type: Pricing
+    url: https://qf-api.quietforge-studio.workers.dev/.well-known/x402
+    description: >-
+      Pay per call in USDC on Base via x402. POST /v1/familytree - $0.02 per call; POST /v1/familytree/pdf - $4.99 per call.
+- aid: quietforge:dataset-audit-api
+  name: Quietforge Dataset Audit API
+  description: >-
+    Audits a CSV or JSON-array dataset (up to 5 MB, 50,000 rows, 200 columns) for duplicate rows, missing values, inferred types, class imbalance, IQR outliers and PII-pattern counts, combined into a heuristic 0-100 quality score, as JSON or a PDF summary. A free preview route scores a small sample without payment.
+  humanURL: https://quietforge-studio.pages.dev/docs-api/#dataset-audit
+  baseURL: https://qf-api.quietforge-studio.workers.dev
+  tags:
+  - Data Quality
+  - Datasets
+  - Validation
+  - Profiling
+  properties:
+  - type: OpenAPI
+    url: openapi/quietforge-dataset-audit-api-openapi.yml
+  - type: Documentation
+    url: https://quietforge-studio.pages.dev/docs-api/#dataset-audit
+  - type: Pricing
+    url: https://qf-api.quietforge-studio.workers.dev/.well-known/x402
+    description: >-
+      Pay per call in USDC on Base via x402. POST /v1/dataset-audit - $0.03 per call; POST /v1/dataset-audit/pdf - $1.99 per call; POST /v1/dataset-audit/preview - free.
 
-x-coverage:
-  state: unreadable
-  reason: js-rendered-docs
-  detail: The provider's documentation site returns HTML and no machine‑readable OpenAPI or other contract files were found.
+x-x402:
+  verified: true
+  probed: '2026-10-03'
+  url: "https://qf-api.quietforge-studio.workers.dev/v1/x402/services"
   evidence:
-    - url: https://quietforge.studio/
-      status: 200
-  checked: '2026-09-28'
+  - "header:payment-required"
+  - "body:x402Version 2"
+  control: 404
+
+x-correction-request:
+  requested: '2026-09-27'
+  source: email from Quietforge Studio (quietforgestudio@agentmail.to) 2026-09-27 (apis.io Add API submission plus follow-up naming
+    https://qf-api.quietforge-studio.workers.dev/apis.json); ledger agentmail-058e5e52
+  request: Profile the Quietforge Docs API from its OpenAPI 3.1, x402 payment manifest, agent resource descriptor and MCP server
+    (later indexed by an APIs.json 0.23 at https://qf-api.quietforge-studio.workers.dev/apis.json with six APIs), and record the AI-operated disclosure as part
+    of the profile.
+  applied: '2026-10-03'
+  applied_note: Applied by hand. The 2026-09-27 stub (0 APIs) had been rooted on quietforge.studio, an unrelated consulting
+    firm (Quiet Forge / 靜鍛工作室); Website, hosts, vendors, domain security and well-known were rebuilt for qf-api.quietforge-studio.workers.dev
+    and quietforge-studio.pages.dev. Six APIs from the provider's apis.json with the OpenAPI 1.7.0 saved verbatim under openapi/_original
+    and split/standardized into 9 per-tag documents (17 operations); MCP server manifest from a live initialize + tools/list (7 tools,
+    no auth); x402 manifest (16 paid resources, USDC on Base), ARD and agent.json saved verbatim under well-known/; x402 402-challenge
+    verified live with a 404 control; operator disclosure recorded in x-operator-disclosure. agent.json is not an A2A agent card
+    (no skills array), so no A2A artifact was recorded.
+
 x-enrichment:
   date: '2026-09-27'
   status: enriched

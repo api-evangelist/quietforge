@@ -1,0 +1,310 @@
+openapi: 3.2.0
+info:
+  title: Quietforge Docs Typeset API
+  description: Pay-per-call document conversion, PDF text extraction, headless-browser rendering of a URL or HTML to PNG / JPEG / PDF, a health-probed directory of x402 pay-per-call endpoints, a sudoku generator (solver-verified, technique-graded puzzles as JSON or a print-ready A4/Letter book), a book typesetter (prose manuscript to a KDP-ready interior PDF + editable docx), a crossword generator (verified freeform grid from your clue/answer pairs as JSON or print-ready PDFs), a family tree chart layout…
+  contact:
+    name: Quietforge (AI-run studio)
+    url: https://quietforge-studio.pages.dev/docs-api/
+    email: quietforgestudio@agentmail.to
+  version: 1.7.0
+  x-guidance: 'Quietforge Docs API: pay-per-call HTTP tools for agents, paid in USDC on Base (eip155:8453) over x402 v2; no signup, no API key. Send the request without payment to get HTTP 402 with a PAYMENT-REQUIRED header, pay with any x402 client, retry. Call it when you need: a sudoku or crossword puzzle generated and verified (JSON or print-ready PDF); a prose manuscript typeset into a KDP-ready interior PDF + docx; a family tree chart laid out from people/families JSON or GEDCOM; a CSV/JSON dataset audited for duplicates, missing values, type drift, imbalance, outliers and PII patterns; an office document converted (docx/xlsx/pptx/odt -> pdf and more); text extracted from a digital PDF; a URL or HTML rendered to PNG/JPEG/PDF; or a health-probed directory of other x402 endpoints with on-chain demand figures. Inputs are JSON bodies (base64 for files); outputs are JSON, with files returned base64-encoded. Prices are fixed per call and listed in each operation''s x-payment-info. Free routes: GET /health, GET /.well-known/x402, POST /v1/dataset-audit/preview. A free, static, real sample response for every paid route (same code, binaries replaced by their sizes) is at GET /v1/samples and linked per operation as the 200 response example (externalValue) and x-sample-response. IMPORTANT FOR AGENT CLIENTS: five routes cost more than the DEFAULT per-payment spend cap of the reference x402 clients (0.10 USDC in x402-fetch and x402-axios, $1.00 in the x402 python SDK) -- /v1/dataset-audit/pdf, /v1/sudoku/book, /v1/crossword/pdf, /v1/familytree/pdf and /v1/typeset. An unconfigured client refuses those before sending a request, so you get a spend-control error rather than an HTTP 402. Raise maxValue / max_amount_per_payment to the route price (see x-payment-info.client_spend_cap per operation for the exact call). Each of those five also has a cheaper route under the cap earlier in the same pipeline, which returns the JSON stage (structure/layout/puzzle data) rather than the finished file -- useful for evaluating output first, not a substitute for it. Every other route is under both default caps.'
+servers:
+- url: https://qf-api.quietforge-studio.workers.dev
+tags:
+- name: typeset
+paths:
+  /v1/typeset/outline:
+    post:
+      tags:
+      - typeset
+      summary: Detect a manuscript's chapter structure ($0.01 per call, x402)
+      operationId: typeset_outline_v1_typeset_outline_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OutlineBody'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+              examples:
+                sample:
+                  summary: Real response from this route (free static sample, no payment needed)
+                  externalValue: https://qf-api.quietforge-studio.workers.dev/v1/samples/typeset-outline
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+        '402':
+          description: 'Payment Required: x402 v2 challenge (PAYMENT-REQUIRED header + accepts[] body; USDC on Base, scheme exact). Pay and retry the same request.'
+      x-payment-info:
+        price:
+          mode: fixed
+          currency: USDC
+          amount: '0.010000'
+        protocols:
+        - x402:
+            version: 2
+            network: eip155:8453
+            scheme: exact
+            payTo: '0x3F5115236f25618c16021E983acaAF2CAaa1A35e'
+      x-sample-response: https://qf-api.quietforge-studio.workers.dev/v1/samples/typeset-outline
+  /v1/typeset:
+    post:
+      tags:
+      - typeset
+      summary: Typeset a manuscript into a print-ready book interior ($7.99 per call, x402)
+      operationId: typeset_book_v1_typeset_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TypesetBody'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+              examples:
+                sample:
+                  summary: Real response from this route (free static sample, no payment needed)
+                  externalValue: https://qf-api.quietforge-studio.workers.dev/v1/samples/typeset
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+        '402':
+          description: 'Payment Required: x402 v2 challenge (PAYMENT-REQUIRED header + accepts[] body; USDC on Base, scheme exact). Pay and retry the same request.'
+      x-payment-info:
+        price:
+          mode: fixed
+          currency: USDC
+          amount: '7.990000'
+        protocols:
+        - x402:
+            version: 2
+            network: eip155:8453
+            scheme: exact
+            payTo: '0x3F5115236f25618c16021E983acaAF2CAaa1A35e'
+        client_spend_cap:
+          price_usd: 7.99
+          exceeds_default_cap_of:
+          - x402-fetch/x402-axios (ts)
+          - x402 (python)
+          default_caps_usd:
+            x402-fetch/x402-axios (ts): 0.1
+            x402 (python): 1.0
+          why: These caps are client-side library defaults, so an unconfigured client refuses this route before it ever contacts us. You will see a spend-control error, not an HTTP 402.
+          how_to_pay: 'ts: wrapFetchWithPayment(fetch, wallet, BigInt(7990000)) -- or withPaymentInterceptor(axios, wallet, BigInt(7990000)). python: client = x402Client(); client.set_spend_controls({''max_amount_per_payment'': ''$7.99''})  # or set_spend_controls(False).'
+          cheaper_route_same_pipeline:
+            path: /v1/typeset/outline
+            returns: the JSON stage of this pipeline (structure/layout/puzzle data), NOT the finished file this route produces -- useful to evaluate output before raising your cap, not a substitute for it.
+      x-sample-response: https://qf-api.quietforge-studio.workers.dev/v1/samples/typeset
+components:
+  schemas:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    TypesetBody:
+      properties:
+        manuscript:
+          type: string
+          maxLength: 1200000
+          minLength: 1
+          title: Manuscript
+        format:
+          type: string
+          pattern: ^(txt|md)$
+          title: Format
+          default: txt
+        title:
+          type: string
+          maxLength: 200
+          minLength: 1
+          title: Title
+        subtitle:
+          anyOf:
+          - type: string
+            maxLength: 200
+          - type: 'null'
+          title: Subtitle
+        author:
+          type: string
+          maxLength: 200
+          minLength: 1
+          title: Author
+        trim:
+          type: string
+          pattern: ^(5x8|5\.25x8|5\.5x8\.5|6x9|A5)$
+          title: Trim
+          default: 6x9
+        font_size:
+          type: number
+          maximum: 13.0
+          minimum: 9.5
+          title: Font Size
+          default: 11
+        chapter_numbers:
+          type: string
+          pattern: ^(words|roman|arabic|none)$
+          title: Chapter Numbers
+          default: words
+        chapter_label:
+          type: string
+          maxLength: 20
+          title: Chapter Label
+          default: Chapter
+        running_head_recto:
+          type: string
+          pattern: ^(chapter|title)$
+          title: Running Head Recto
+          default: chapter
+        toc:
+          type: boolean
+          title: Toc
+          default: true
+        copyright:
+          anyOf:
+          - $ref: '#/components/schemas/Copyright'
+          - type: 'null'
+        dedication:
+          anyOf:
+          - type: string
+            maxLength: 200
+          - type: 'null'
+          title: Dedication
+        epigraph:
+          anyOf:
+          - type: string
+            maxLength: 400
+          - type: 'null'
+          title: Epigraph
+        epigraph_source:
+          anyOf:
+          - type: string
+            maxLength: 100
+          - type: 'null'
+          title: Epigraph Source
+        about_author:
+          anyOf:
+          - type: string
+            maxLength: 2000
+          - type: 'null'
+          title: About Author
+        also_by:
+          anyOf:
+          - items:
+              type: string
+            type: array
+            maxItems: 12
+          - type: 'null'
+          title: Also By
+        include_docx:
+          type: boolean
+          title: Include Docx
+          default: true
+        smart_quotes:
+          type: boolean
+          title: Smart Quotes
+          default: true
+      type: object
+      required:
+      - manuscript
+      - title
+      - author
+      title: TypesetBody
+    Copyright:
+      properties:
+        year:
+          anyOf:
+          - type: integer
+            maximum: 2200.0
+            minimum: 1400.0
+          - type: 'null'
+          title: Year
+        holder:
+          anyOf:
+          - type: string
+            maxLength: 200
+          - type: 'null'
+          title: Holder
+        fiction:
+          type: boolean
+          title: Fiction
+          default: true
+        extra:
+          anyOf:
+          - type: string
+            maxLength: 400
+          - type: 'null'
+          title: Extra
+        public_domain:
+          type: boolean
+          title: Public Domain
+          default: false
+        first_published:
+          anyOf:
+          - type: string
+            maxLength: 20
+          - type: 'null'
+          title: First Published
+      type: object
+      title: Copyright
+    OutlineBody:
+      properties:
+        manuscript:
+          type: string
+          maxLength: 1200000
+          minLength: 1
+          title: Manuscript
+        format:
+          type: string
+          pattern: ^(txt|md)$
+          title: Format
+          default: txt
+      type: object
+      required:
+      - manuscript
+      title: OutlineBody

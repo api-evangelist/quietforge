@@ -1,0 +1,47 @@
+{
+ "linkset": [
+  {
+   "anchor": "https://qf-api.quietforge-studio.workers.dev/.well-known/api-catalog",
+   "item": [
+    {
+     "href": "https://qf-api.quietforge-studio.workers.dev/"
+    }
+   ]
+  },
+  {
+   "anchor": "https://qf-api.quietforge-studio.workers.dev/",
+   "service-desc": [
+    {
+     "href": "https://qf-api.quietforge-studio.workers.dev/openapi.json",
+     "type": "application/vnd.oai.openapi+json"
+    }
+   ],
+   "service-doc": [
+    {
+     "href": "https://qf-api.quietforge-studio.workers.dev/docs",
+     "type": "text/html"
+    }
+   ],
+   "service-meta": [
+    {
+     "href": "https://qf-api.quietforge-studio.workers.dev/.well-known/x402.json",
+     "type": "application/json"
+    },
+    {
+     "href": "https://qf-api.quietforge-studio.workers.dev/.well-known/ard.json",
+     "type": "application/json"
+    },
+    {
+     "href": "https://qf-api.quietforge-studio.workers.dev/apis.json",
+     "type": "application/json"
+    }
+   ],
+   "status": [
+    {
+     "href": "https://qf-api.quietforge-studio.workers.dev/health",
+     "type": "application/json"
+    }
+   ]
+  }
+ ]
+}

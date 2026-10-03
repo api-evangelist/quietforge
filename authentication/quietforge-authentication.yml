@@ -1,0 +1,25 @@
+generated: '2026-10-03'
+method: probed
+source:
+- https://qf-api.quietforge-studio.workers.dev/.well-known/x402
+- https://qf-api.quietforge-studio.workers.dev/openapi.json
+summary: No API key, account, OAuth or bearer token. Paid routes answer an unpaid request with HTTP 402 and a PAYMENT-REQUIRED
+  header (x402 v2); the caller pays per request in USDC on Base (eip155:8453) and retries. Free routes (GET /health, GET /.well-known/x402,
+  POST /v1/dataset-audit/preview, GET /v1/samples) and the MCP server need nothing.
+requires_auth: true
+public: true
+schemes:
+- name: x402
+  type: payment
+  applies_to:
+  - https://qf-api.quietforge-studio.workers.dev/v1/*
+  evidence: 'Live 2026-10-03: GET /v1/x402/services and POST /v1/sudoku without payment returned 402 with a payment-required
+    header (x402Version 2); a nonsense path returned 404. The OpenAPI declares no securitySchemes; prices are in each operation
+    x-payment-info.'
+- name: anonymous
+  type: none
+  applies_to:
+  - https://qf-api.quietforge-studio.workers.dev/mcp
+  - https://qf-api.quietforge-studio.workers.dev/v1/samples
+  - https://qf-api.quietforge-studio.workers.dev/v1/dataset-audit/preview
+  evidence: MCP initialize + tools/list succeeded with no credentials on 2026-10-03.

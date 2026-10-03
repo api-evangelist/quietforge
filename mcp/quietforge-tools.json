@@ -1,0 +1,273 @@
+{
+  "tools": [
+    {
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false,
+        "readOnlyHint": true
+      },
+      "description": "Search a health-probed directory of live x402 pay-per-call HTTP endpoints on Base, Solana and other networks (x402_index_stats gives the current count). Returns id, resource URL, method, network, USD price, description, 30-day call/payer counts and our own uptime/probe data. Data is re-crawled a few times a day, not real-time. Quietforge operates this directory and also operates some listed endpoints (source=quietforge) under the same per-host cap as every operator; ordering is by 30-day usage, then liveness, then freshness, never by operator.",
+      "inputSchema": {
+        "properties": {
+          "q": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Case-insensitive substring matched against the resource URL, description and service name.",
+            "title": "Q"
+          },
+          "network": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "CAIP-2 network id to filter on, e.g. eip155:8453 (Base mainnet); omit for all networks.",
+            "title": "Network"
+          },
+          "alive": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "true = answered its paid route on our last probe; false = did not; omit for both.",
+            "title": "Alive"
+          },
+          "max_price_usd": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Only endpoints priced at or below this USD amount per call.",
+            "title": "Max Price Usd"
+          },
+          "source": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Listing source: cdp (Coinbase CDP bazaar), payai (PayAI discovery) or quietforge (our own endpoints).",
+            "title": "Source"
+          },
+          "limit": {
+            "default": 20,
+            "description": "Page size, 1-100; out-of-range values are clamped.",
+            "title": "Limit",
+            "type": "integer"
+          },
+          "offset": {
+            "default": 0,
+            "description": "Rows to skip for paging; negative is treated as 0.",
+            "title": "Offset",
+            "type": "integer"
+          }
+        },
+        "type": "object",
+        "title": "x402_searchArguments"
+      },
+      "name": "x402_search",
+      "outputSchema": {
+        "type": "object",
+        "additionalProperties": true,
+        "title": "x402_searchDictOutput"
+      },
+      "title": "Search the x402 endpoint directory"
+    },
+    {
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false,
+        "readOnlyHint": true
+      },
+      "description": "One endpoint from the x402 service index by id (from x402_search), with its last 20 health probes (status code, latency, alive) and uptime across them.",
+      "inputSchema": {
+        "properties": {
+          "id": {
+            "description": "Service id exactly as returned by x402_search.",
+            "title": "Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "type": "object",
+        "title": "x402_serviceArguments"
+      },
+      "name": "x402_service",
+      "outputSchema": {
+        "type": "object",
+        "additionalProperties": true,
+        "title": "x402_serviceDictOutput"
+      },
+      "title": "Get one x402 endpoint with probe history"
+    },
+    {
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false,
+        "readOnlyHint": true
+      },
+      "description": "Summary of the x402 service index: totals, how many endpoints answered on the last probe, counts per network and per source, and when the crawl ran.",
+      "inputSchema": {
+        "properties": {},
+        "type": "object",
+        "title": "x402_index_statsArguments"
+      },
+      "name": "x402_index_stats",
+      "outputSchema": {
+        "type": "object",
+        "additionalProperties": true,
+        "title": "x402_index_statsDictOutput"
+      },
+      "title": "x402 directory size and breakdown"
+    },
+    {
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false,
+        "readOnlyHint": true
+      },
+      "description": "Market-level demand signal for the x402 ecosystem, verified against on-chain USDC settlement on Base rather than self-reported call counts: how many seller addresses were paid in the last 24h, total USD settled, and the distribution of sellers by payment count. Free and aggregate-only; the per-seller breakdown (distinct payers per address; payer counts include sampler/grader wallets that pay many sellers once, so read them as an upper bound on customers) is the paid GET /v1/x402/demand route. Refuses to answer rather than serve a stale snapshot.",
+      "inputSchema": {
+        "properties": {},
+        "type": "object",
+        "title": "x402_demandArguments"
+      },
+      "name": "x402_demand",
+      "outputSchema": {
+        "type": "object",
+        "additionalProperties": true,
+        "title": "x402_demandDictOutput"
+      },
+      "title": "x402 market demand, on-chain, last 24h"
+    },
+    {
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": false,
+        "openWorldHint": true,
+        "readOnlyHint": false
+      },
+      "description": "Make ONE live unpaid request to a public http(s) URL and report whether it is an x402 endpoint: status code, latency, alive flag, whether a PAYMENT-REQUIRED challenge came back and the parsed USD price. GET only, except that a URL already in the index is probed with its listed method. Public hosts only (redirects re-checked), delisted hosts never contacted, results cached 60 s, 3 probes per host per 5 min and 30 per minute overall.",
+      "inputSchema": {
+        "properties": {
+          "url": {
+            "description": "Absolute http(s) URL to probe, max 2048 chars; public hosts only.",
+            "title": "Url",
+            "type": "string"
+          },
+          "method": {
+            "default": "GET",
+            "description": "HTTP method. GET unless the URL is already in the index with a different listed method (then that method is allowed).",
+            "title": "Method",
+            "type": "string"
+          }
+        },
+        "required": [
+          "url"
+        ],
+        "type": "object",
+        "title": "x402_probeArguments"
+      },
+      "name": "x402_probe",
+      "outputSchema": {
+        "type": "object",
+        "additionalProperties": true,
+        "title": "x402_probeDictOutput"
+      },
+      "title": "Probe one URL for an x402 payment challenge"
+    },
+    {
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false,
+        "readOnlyHint": true
+      },
+      "description": "Generate ONE sudoku puzzle with a unique solution, 180-degree symmetry, graded by the solving techniques it needs (easy | medium | hard | expert). Returns 81-char puzzle and solution strings (row by row, 0 = empty), given count and technique list. Deterministic when a seed is supplied. 20 per minute shared by all clients.",
+      "inputSchema": {
+        "properties": {
+          "level": {
+            "default": "medium",
+            "description": "Difficulty by solving technique: easy, medium, hard or expert.",
+            "title": "Level",
+            "type": "string"
+          },
+          "seed": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Integer 1-2147483647 for a reproducible puzzle; omit for a random one.",
+            "title": "Seed"
+          }
+        },
+        "type": "object",
+        "title": "sudoku_puzzleArguments"
+      },
+      "name": "sudoku_puzzle",
+      "outputSchema": {
+        "type": "object",
+        "additionalProperties": true,
+        "title": "sudoku_puzzleDictOutput"
+      },
+      "title": "Generate one solver-verified sudoku"
+    },
+    {
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false,
+        "readOnlyHint": true
+      },
+      "description": "List Quietforge's paid x402 routes (document conversion, PDF text extraction, URL/HTML → PNG/JPEG/PDF rendering, sudoku books, manuscript typesetting, x402 index JSON API) with USD prices, the pay-to address and network, and how an x402 client pays. Free, read-only.",
+      "inputSchema": {
+        "properties": {},
+        "type": "object",
+        "title": "quietforge_pricingArguments"
+      },
+      "name": "quietforge_pricing",
+      "outputSchema": {
+        "type": "object",
+        "additionalProperties": true,
+        "title": "quietforge_pricingDictOutput"
+      },
+      "title": "Quietforge paid x402 routes and prices"
+    }
+  ]
+}

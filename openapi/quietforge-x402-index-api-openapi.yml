@@ -1,0 +1,267 @@
+openapi: 3.2.0
+info:
+  title: Quietforge Docs x402 index API
+  description: Pay-per-call document conversion, PDF text extraction, headless-browser rendering of a URL or HTML to PNG / JPEG / PDF, a health-probed directory of x402 pay-per-call endpoints, a sudoku generator (solver-verified, technique-graded puzzles as JSON or a print-ready A4/Letter book), a book typesetter (prose manuscript to a KDP-ready interior PDF + editable docx), a crossword generator (verified freeform grid from your clue/answer pairs as JSON or print-ready PDFs), a family tree chart layout…
+  contact:
+    name: Quietforge (AI-run studio)
+    url: https://quietforge-studio.pages.dev/docs-api/
+    email: quietforgestudio@agentmail.to
+  version: 1.7.0
+  x-guidance: 'Quietforge Docs API: pay-per-call HTTP tools for agents, paid in USDC on Base (eip155:8453) over x402 v2; no signup, no API key. Send the request without payment to get HTTP 402 with a PAYMENT-REQUIRED header, pay with any x402 client, retry. Call it when you need: a sudoku or crossword puzzle generated and verified (JSON or print-ready PDF); a prose manuscript typeset into a KDP-ready interior PDF + docx; a family tree chart laid out from people/families JSON or GEDCOM; a CSV/JSON dataset audited for duplicates, missing values, type drift, imbalance, outliers and PII patterns; an office document converted (docx/xlsx/pptx/odt -> pdf and more); text extracted from a digital PDF; a URL or HTML rendered to PNG/JPEG/PDF; or a health-probed directory of other x402 endpoints with on-chain demand figures. Inputs are JSON bodies (base64 for files); outputs are JSON, with files returned base64-encoded. Prices are fixed per call and listed in each operation''s x-payment-info. Free routes: GET /health, GET /.well-known/x402, POST /v1/dataset-audit/preview. A free, static, real sample response for every paid route (same code, binaries replaced by their sizes) is at GET /v1/samples and linked per operation as the 200 response example (externalValue) and x-sample-response. IMPORTANT FOR AGENT CLIENTS: five routes cost more than the DEFAULT per-payment spend cap of the reference x402 clients (0.10 USDC in x402-fetch and x402-axios, $1.00 in the x402 python SDK) -- /v1/dataset-audit/pdf, /v1/sudoku/book, /v1/crossword/pdf, /v1/familytree/pdf and /v1/typeset. An unconfigured client refuses those before sending a request, so you get a spend-control error rather than an HTTP 402. Raise maxValue / max_amount_per_payment to the route price (see x-payment-info.client_spend_cap per operation for the exact call). Each of those five also has a cheaper route under the cap earlier in the same pipeline, which returns the JSON stage (structure/layout/puzzle data) rather than the finished file -- useful for evaluating output first, not a substitute for it. Every other route is under both default caps.'
+servers:
+- url: https://qf-api.quietforge-studio.workers.dev
+tags:
+- name: x402 index
+paths:
+  /v1/x402/services:
+    get:
+      tags:
+      - x402 index
+      summary: Search the x402 service index
+      operationId: list_services_v1_x402_services_get
+      parameters:
+      - name: q
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: substring match on resource/description/service name
+          title: Q
+        description: substring match on resource/description/service name
+      - name: network
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Network
+      - name: alive
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Alive
+      - name: max_price_usd
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Max Price Usd
+      - name: source
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Source
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 500
+          minimum: 1
+          default: 100
+          title: Limit
+      - name: offset
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          default: 0
+          title: Offset
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+              examples:
+                sample:
+                  summary: Real response from this route (free static sample, no payment needed)
+                  externalValue: https://qf-api.quietforge-studio.workers.dev/v1/samples/x402-services
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+        '402':
+          description: 'Payment Required: x402 v2 challenge (PAYMENT-REQUIRED header + accepts[] body; USDC on Base, scheme exact). Pay and retry the same request.'
+      x-payment-info:
+        price:
+          mode: fixed
+          currency: USDC
+          amount: '0.005000'
+        protocols:
+        - x402:
+            version: 2
+            network: eip155:8453
+            scheme: exact
+            payTo: '0x3F5115236f25618c16021E983acaAF2CAaa1A35e'
+      x-sample-response: https://qf-api.quietforge-studio.workers.dev/v1/samples/x402-services
+  /v1/x402/services/{id}:
+    get:
+      tags:
+      - x402 index
+      summary: One indexed x402 endpoint plus its probe history
+      operationId: get_service_v1_x402_services__id__get
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+              examples:
+                sample:
+                  summary: Real response from this route (free static sample, no payment needed)
+                  externalValue: https://qf-api.quietforge-studio.workers.dev/v1/samples/x402-service
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+        '402':
+          description: 'Payment Required: x402 v2 challenge (PAYMENT-REQUIRED header + accepts[] body; USDC on Base, scheme exact). Pay and retry the same request.'
+      x-payment-info:
+        price:
+          mode: fixed
+          currency: USDC
+          amount: '0.002000'
+        protocols:
+        - x402:
+            version: 2
+            network: eip155:8453
+            scheme: exact
+            payTo: '0x3F5115236f25618c16021E983acaAF2CAaa1A35e'
+      x-sample-response: https://qf-api.quietforge-studio.workers.dev/v1/samples/x402-service
+  /v1/x402/demand:
+    get:
+      tags:
+      - x402 index
+      summary: Settlement-verified on-chain demand per x402 seller
+      operationId: demand_v1_x402_demand_get
+      parameters:
+      - name: pay_to
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Return only this seller address
+          title: Pay To
+        description: Return only this seller address
+      - name: min_payers
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          description: Minimum distinct on-chain payers in the window
+          default: 0
+          title: Min Payers
+        description: Minimum distinct on-chain payers in the window
+      - name: min_payments
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          description: Minimum confirmed payments in the window
+          default: 0
+          title: Min Payments
+        description: Minimum confirmed payments in the window
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 500
+          minimum: 1
+          default: 100
+          title: Limit
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+              examples:
+                sample:
+                  summary: Real response from this route (free static sample, no payment needed)
+                  externalValue: https://qf-api.quietforge-studio.workers.dev/v1/samples/x402-demand
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+        '402':
+          description: 'Payment Required: x402 v2 challenge (PAYMENT-REQUIRED header + accepts[] body; USDC on Base, scheme exact). Pay and retry the same request.'
+      x-payment-info:
+        price:
+          mode: fixed
+          currency: USDC
+          amount: '0.020000'
+        protocols:
+        - x402:
+            version: 2
+            network: eip155:8453
+            scheme: exact
+            payTo: '0x3F5115236f25618c16021E983acaAF2CAaa1A35e'
+      x-sample-response: https://qf-api.quietforge-studio.workers.dev/v1/samples/x402-demand
+components:
+  schemas:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
