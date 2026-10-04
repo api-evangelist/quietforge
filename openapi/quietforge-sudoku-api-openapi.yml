@@ -171,15 +171,21 @@ components:
       - name
       - counts
       title: BookBody
-    HTTPValidationError:
+    PuzzlesBody:
       properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
+        counts:
+          $ref: '#/components/schemas/Counts'
+        seed:
+          anyOf:
+          - type: integer
+            maximum: 2147483647.0
+            minimum: 0.0
+          - type: 'null'
+          title: Seed
       type: object
-      title: HTTPValidationError
+      required:
+      - counts
+      title: PuzzlesBody
     ValidationError:
       properties:
         loc:
@@ -206,18 +212,12 @@ components:
       - msg
       - type
       title: ValidationError
-    PuzzlesBody:
+    HTTPValidationError:
       properties:
-        counts:
-          $ref: '#/components/schemas/Counts'
-        seed:
-          anyOf:
-          - type: integer
-            maximum: 2147483647.0
-            minimum: 0.0
-          - type: 'null'
-          title: Seed
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
       type: object
-      required:
-      - counts
-      title: PuzzlesBody
+      title: HTTPValidationError

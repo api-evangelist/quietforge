@@ -112,41 +112,23 @@ paths:
       x-sample-response: https://qf-api.quietforge-studio.workers.dev/v1/samples/crossword-pdf
 components:
   schemas:
-    HTTPValidationError:
+    Entry:
       properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
+        answer:
           type: string
-          title: Message
-        type:
+          maxLength: 60
+          minLength: 1
+          title: Answer
+        clue:
           type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
+          maxLength: 110
+          minLength: 1
+          title: Clue
       type: object
       required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
+      - answer
+      - clue
+      title: Entry
     crossword_router__Body:
       properties:
         title:
@@ -190,20 +172,38 @@ components:
       - title
       - entries
       title: Body
-    Entry:
+    HTTPValidationError:
       properties:
-        answer:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
           type: string
-          maxLength: 60
-          minLength: 1
-          title: Answer
-        clue:
+          title: Message
+        type:
           type: string
-          maxLength: 110
-          minLength: 1
-          title: Clue
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
       type: object
       required:
-      - answer
-      - clue
-      title: Entry
+      - loc
+      - msg
+      - type
+      title: ValidationError

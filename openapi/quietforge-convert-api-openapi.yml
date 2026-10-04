@@ -57,6 +57,33 @@ paths:
       - Convert
 components:
   schemas:
+    ConvertBody:
+      properties:
+        content_base64:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Content Base64
+          description: File bytes as base64 (max 15 MB)
+        url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Url
+          description: Public http(s) URL of the file
+        filename:
+          type: string
+          title: Filename
+          description: Original filename with extension
+        to:
+          type: string
+          title: To
+          description: 'Target format: csv, docx, html, odp, ods, odt, pdf, png, pptx, txt, xlsx'
+          default: pdf
+      type: object
+      required:
+      - filename
+      title: ConvertBody
     HTTPValidationError:
       properties:
         detail:
@@ -92,30 +119,3 @@ components:
       - msg
       - type
       title: ValidationError
-    ConvertBody:
-      properties:
-        content_base64:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Content Base64
-          description: File bytes as base64 (max 15 MB)
-        url:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Url
-          description: Public http(s) URL of the file
-        filename:
-          type: string
-          title: Filename
-          description: Original filename with extension
-        to:
-          type: string
-          title: To
-          description: 'Target format: csv, docx, html, odp, ods, odt, pdf, png, pptx, txt, xlsx'
-          default: pdf
-      type: object
-      required:
-      - filename
-      title: ConvertBody

@@ -112,41 +112,43 @@ paths:
       x-sample-response: https://qf-api.quietforge-studio.workers.dev/v1/samples/typeset
 components:
   schemas:
-    HTTPValidationError:
+    Copyright:
       properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
+        year:
+          anyOf:
+          - type: integer
+            maximum: 2200.0
+            minimum: 1400.0
+          - type: 'null'
+          title: Year
+        holder:
+          anyOf:
+          - type: string
+            maxLength: 200
+          - type: 'null'
+          title: Holder
+        fiction:
+          type: boolean
+          title: Fiction
+          default: true
+        extra:
+          anyOf:
+          - type: string
+            maxLength: 400
+          - type: 'null'
+          title: Extra
+        public_domain:
+          type: boolean
+          title: Public Domain
+          default: false
+        first_published:
+          anyOf:
+          - type: string
+            maxLength: 20
+          - type: 'null'
+          title: First Published
       type: object
-      title: HTTPValidationError
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
+      title: Copyright
     TypesetBody:
       properties:
         manuscript:
@@ -255,43 +257,32 @@ components:
       - title
       - author
       title: TypesetBody
-    Copyright:
+    ValidationError:
       properties:
-        year:
-          anyOf:
-          - type: integer
-            maximum: 2200.0
-            minimum: 1400.0
-          - type: 'null'
-          title: Year
-        holder:
-          anyOf:
-          - type: string
-            maxLength: 200
-          - type: 'null'
-          title: Holder
-        fiction:
-          type: boolean
-          title: Fiction
-          default: true
-        extra:
-          anyOf:
-          - type: string
-            maxLength: 400
-          - type: 'null'
-          title: Extra
-        public_domain:
-          type: boolean
-          title: Public Domain
-          default: false
-        first_published:
-          anyOf:
-          - type: string
-            maxLength: 20
-          - type: 'null'
-          title: First Published
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
       type: object
-      title: Copyright
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
     OutlineBody:
       properties:
         manuscript:
@@ -308,3 +299,12 @@ components:
       required:
       - manuscript
       title: OutlineBody
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError

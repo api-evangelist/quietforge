@@ -1,0 +1,48 @@
+{
+  "provider": "quietforge",
+  "sources": [
+    "_original/quietforge-openapi.json"
+  ],
+  "outputs": [
+    "quietforge-convert-api-openapi.yml",
+    "quietforge-pdf-api-openapi.yml",
+    "quietforge-render-api-openapi.yml",
+    "quietforge-crossword-api-openapi.yml",
+    "quietforge-dataset-audit-api-openapi.yml",
+    "quietforge-familytree-api-openapi.yml",
+    "quietforge-sudoku-api-openapi.yml",
+    "quietforge-typeset-api-openapi.yml",
+    "quietforge-x402-index-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "quietforge-openapi.json: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "quietforge-openapi.json: tagged paths POST /v1/convert -> Convert",
+    "quietforge-openapi.json: tagged paths POST /v1/pdf/text -> Pdf",
+    "quietforge-openapi.json: tagged paths POST /v1/render -> Render",
+    "quietforge-openapi.json: declared missing tag: Convert",
+    "quietforge-openapi.json: declared missing tag: Pdf",
+    "quietforge-openapi.json: declared missing tag: Render",
+    "quietforge-openapi.json: declared missing tag: crossword",
+    "quietforge-openapi.json: declared missing tag: dataset-audit",
+    "quietforge-openapi.json: declared missing tag: familytree",
+    "quietforge-openapi.json: declared missing tag: sudoku",
+    "quietforge-openapi.json: declared missing tag: typeset",
+    "quietforge-openapi.json: declared missing tag: x402 index",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "quietforge-convert-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "quietforge-crossword-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "quietforge-dataset-audit-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "quietforge-familytree-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "quietforge-pdf-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "quietforge-render-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "quietforge-sudoku-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "quietforge-typeset-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "quietforge-x402-index-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
+}
