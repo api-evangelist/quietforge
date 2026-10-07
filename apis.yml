@@ -57,6 +57,8 @@ maintainers:
   email: info@apis.io
 
 common:
+- type: Pricing
+  url: https://qf-api.quietforge-studio.workers.dev/apis.json
 - type: Hosts
   url: hosts/quietforge-hosts.yml
 - type: Vendors
