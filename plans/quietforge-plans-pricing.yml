@@ -107,3 +107,106 @@ plans:
   price: 1.99
   price_text: POST /v1/dataset-audit/pdf - $1.99 per call
   billing_period: per call
+x-canonical:
+  generated: '2026-10-08'
+  vocabulary: all/0-working/economics/plans-canonical.yml
+  models:
+  - subscription
+  units: []
+  plans:
+  - name: POST /v1/convert
+    access: other
+    model: subscription
+    model_how: derived
+    units: []
+    periods: []
+  - name: POST /v1/pdf/text
+    access: other
+    model: subscription
+    model_how: derived
+    units: []
+    periods: []
+  - name: POST /v1/render
+    access: other
+    model: subscription
+    model_how: derived
+    units: []
+    periods: []
+  - name: GET /v1/x402/services
+    access: other
+    model: subscription
+    model_how: derived
+    units: []
+    periods: []
+  - name: GET /v1/x402/services/{id}
+    access: other
+    model: subscription
+    model_how: derived
+    units: []
+    periods: []
+  - name: GET /v1/x402/demand
+    access: other
+    model: subscription
+    model_how: derived
+    units: []
+    periods: []
+  - name: POST /v1/sudoku
+    access: other
+    model: subscription
+    model_how: derived
+    units: []
+    periods: []
+  - name: POST /v1/sudoku/book
+    access: other
+    model: subscription
+    model_how: derived
+    units: []
+    periods: []
+  - name: POST /v1/typeset/outline
+    access: other
+    model: subscription
+    model_how: derived
+    units: []
+    periods: []
+  - name: POST /v1/typeset
+    access: other
+    model: subscription
+    model_how: derived
+    units: []
+    periods: []
+  - name: POST /v1/crossword
+    access: other
+    model: subscription
+    model_how: derived
+    units: []
+    periods: []
+  - name: POST /v1/crossword/pdf
+    access: other
+    model: subscription
+    model_how: derived
+    units: []
+    periods: []
+  - name: POST /v1/familytree
+    access: other
+    model: subscription
+    model_how: derived
+    units: []
+    periods: []
+  - name: POST /v1/familytree/pdf
+    access: other
+    model: subscription
+    model_how: derived
+    units: []
+    periods: []
+  - name: POST /v1/dataset-audit
+    access: other
+    model: subscription
+    model_how: derived
+    units: []
+    periods: []
+  - name: POST /v1/dataset-audit/pdf
+    access: other
+    model: subscription
+    model_how: derived
+    units: []
+    periods: []
