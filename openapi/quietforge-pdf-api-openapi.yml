@@ -57,31 +57,6 @@ paths:
       - PDF
 components:
   schemas:
-    BaseBody:
-      properties:
-        content_base64:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Content Base64
-          description: File bytes as base64 (max 15 MB)
-        url:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Url
-          description: Public http(s) URL of the file
-      type: object
-      title: BaseBody
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
     ValidationError:
       properties:
         loc:
@@ -108,3 +83,28 @@ components:
       - msg
       - type
       title: ValidationError
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    BaseBody:
+      properties:
+        content_base64:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Content Base64
+          description: File bytes as base64 (max 15 MB)
+        url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Url
+          description: Public http(s) URL of the file
+      type: object
+      title: BaseBody

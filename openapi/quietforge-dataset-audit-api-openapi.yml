@@ -137,49 +137,6 @@ paths:
       x-sample-response: https://qf-api.quietforge-studio.workers.dev/v1/samples/dataset-audit-pdf
 components:
   schemas:
-    dataset_audit_router__Body:
-      properties:
-        data:
-          type: string
-          maxLength: 7340032
-          minLength: 1
-          title: Data
-          description: CSV text or a JSON array of flat objects
-        format:
-          type: string
-          pattern: ^(auto|csv|json)$
-          title: Format
-          default: auto
-      type: object
-      required:
-      - data
-      title: Body
-    PreviewBody:
-      properties:
-        data:
-          type: string
-          maxLength: 28672
-          minLength: 1
-          title: Data
-          description: small CSV/JSON sample, capped at 20 rows / 20 KB
-        format:
-          type: string
-          pattern: ^(auto|csv|json)$
-          title: Format
-          default: auto
-      type: object
-      required:
-      - data
-      title: PreviewBody
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
     ValidationError:
       properties:
         loc:
@@ -206,3 +163,46 @@ components:
       - msg
       - type
       title: ValidationError
+    PreviewBody:
+      properties:
+        data:
+          type: string
+          maxLength: 28672
+          minLength: 1
+          title: Data
+          description: small CSV/JSON sample, capped at 20 rows / 20 KB
+        format:
+          type: string
+          pattern: ^(auto|csv|json)$
+          title: Format
+          default: auto
+      type: object
+      required:
+      - data
+      title: PreviewBody
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    dataset_audit_router__Body:
+      properties:
+        data:
+          type: string
+          maxLength: 7340032
+          minLength: 1
+          title: Data
+          description: CSV text or a JSON array of flat objects
+        format:
+          type: string
+          pattern: ^(auto|csv|json)$
+          title: Format
+          default: auto
+      type: object
+      required:
+      - data
+      title: Body

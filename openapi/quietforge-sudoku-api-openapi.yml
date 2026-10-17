@@ -112,34 +112,6 @@ paths:
       x-sample-response: https://qf-api.quietforge-studio.workers.dev/v1/samples/sudoku-book
 components:
   schemas:
-    Counts:
-      properties:
-        easy:
-          type: integer
-          maximum: 60.0
-          minimum: 0.0
-          title: Easy
-          default: 0
-        medium:
-          type: integer
-          maximum: 60.0
-          minimum: 0.0
-          title: Medium
-          default: 0
-        hard:
-          type: integer
-          maximum: 60.0
-          minimum: 0.0
-          title: Hard
-          default: 0
-        expert:
-          type: integer
-          maximum: 60.0
-          minimum: 0.0
-          title: Expert
-          default: 0
-      type: object
-      title: Counts
     BookBody:
       properties:
         name:
@@ -171,21 +143,6 @@ components:
       - name
       - counts
       title: BookBody
-    PuzzlesBody:
-      properties:
-        counts:
-          $ref: '#/components/schemas/Counts'
-        seed:
-          anyOf:
-          - type: integer
-            maximum: 2147483647.0
-            minimum: 0.0
-          - type: 'null'
-          title: Seed
-      type: object
-      required:
-      - counts
-      title: PuzzlesBody
     ValidationError:
       properties:
         loc:
@@ -212,6 +169,21 @@ components:
       - msg
       - type
       title: ValidationError
+    PuzzlesBody:
+      properties:
+        counts:
+          $ref: '#/components/schemas/Counts'
+        seed:
+          anyOf:
+          - type: integer
+            maximum: 2147483647.0
+            minimum: 0.0
+          - type: 'null'
+          title: Seed
+      type: object
+      required:
+      - counts
+      title: PuzzlesBody
     HTTPValidationError:
       properties:
         detail:
@@ -221,3 +193,31 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
+    Counts:
+      properties:
+        easy:
+          type: integer
+          maximum: 60.0
+          minimum: 0.0
+          title: Easy
+          default: 0
+        medium:
+          type: integer
+          maximum: 60.0
+          minimum: 0.0
+          title: Medium
+          default: 0
+        hard:
+          type: integer
+          maximum: 60.0
+          minimum: 0.0
+          title: Hard
+          default: 0
+        expert:
+          type: integer
+          maximum: 60.0
+          minimum: 0.0
+          title: Expert
+          default: 0
+      type: object
+      title: Counts

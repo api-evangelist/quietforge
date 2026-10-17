@@ -112,23 +112,32 @@ paths:
       x-sample-response: https://qf-api.quietforge-studio.workers.dev/v1/samples/crossword-pdf
 components:
   schemas:
-    Entry:
+    ValidationError:
       properties:
-        answer:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
           type: string
-          maxLength: 60
-          minLength: 1
-          title: Answer
-        clue:
+          title: Message
+        type:
           type: string
-          maxLength: 110
-          minLength: 1
-          title: Clue
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
       type: object
       required:
-      - answer
-      - clue
-      title: Entry
+      - loc
+      - msg
+      - type
+      title: ValidationError
     crossword_router__Body:
       properties:
         title:
@@ -172,6 +181,23 @@ components:
       - title
       - entries
       title: Body
+    Entry:
+      properties:
+        answer:
+          type: string
+          maxLength: 60
+          minLength: 1
+          title: Answer
+        clue:
+          type: string
+          maxLength: 110
+          minLength: 1
+          title: Clue
+      type: object
+      required:
+      - answer
+      - clue
+      title: Entry
     HTTPValidationError:
       properties:
         detail:
@@ -181,29 +207,3 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
