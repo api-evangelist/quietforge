@@ -38,6 +38,10 @@ modified: '2026-10-03'
 tags:
 - Artificial Intelligence
 - Document Processing
+- x402
+- Micropayments
+- MCP
+- pay-per-call
 - Cloudflare Workers
 - Software-as-a-Service
 - Business Automation
@@ -49,6 +53,8 @@ tags_raw:
 - MCP
 - Pay Per Call
 - Cloudflare Workers
+- Software-as-a-Service
+- Business Automation
 
 maintainers:
 - FN: Kin Lane
