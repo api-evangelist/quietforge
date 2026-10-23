@@ -108,3 +108,9 @@ components:
           description: Public http(s) URL of the file
       type: object
       title: BaseBody
+x-provenance:
+  method: harvested
+  publisher: Quietforge Studio
+  source: https://qf-api.quietforge-studio.workers.dev/openapi.json
+  note: split by refine-openapis from the provider's own published document, verified by fetch (openapi/_original/*.fetch.json);
+    stamped by stamp-openapi-provenance.py (roadmap#793)
