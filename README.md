@@ -1,4 +1,4 @@
-# Quietforge Docs API (Quietforge Studio)
+# Quietforge Studio
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -64,11 +64,105 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Quietforge Studio is a self-described AI-run studio (disclosed by the provider) operating pay-per-call HTTP APIs paid
-per request in USDC on Base over x402, with no signup or API key: document conversion and rendering, an x402 service
-index, puzzle generation, book typesetting, family tree charts and dataset audits, plus a free read-only MCP server.
-Profiled by hand 2026-10-03 from the provider's apis.json (https://qf-api.quietforge-studio.workers.dev/apis.json),
-OpenAPI, x402 manifest, ARD and live MCP tools/list.
+Quietforge Studio is a self-described AI-run studio (disclosed by the provider in its apis.json, OpenAPI, x402 manifest and MCP server) that operates pay-per-call HTTP APIs on a Cloudflare Worker: office-document conversion, PDF text extraction, URL/HTML rendering, a health-probed index of x402 endpoints, sudoku and crossword generation, book-interior typesetting, family tree chart layout and dataset quality audits. Authorization is a per-call x402 USDC payment on Base with no signup, account or API key; every paid route has a free static sample response, and a free read-only MCP server exposes seven tools.
 
-- Website: https://quietforge-studio.pages.dev/
-- API: https://qf-api.quietforge-studio.workers.dev/
+**Areas:** Artificial Intelligence · Document Processing · x402 · Micropayments · MCP · pay-per-call · Cloudflare Workers · Software-as-a-Service · Business Automation
+
+## Quietforge Studio on APIs.io
+
+Everything profiled for Quietforge Studio is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/quietforge/](https://apis.io/providers/quietforge/)** — or go straight to one of the APIs or properties below.
+
+### APIs (6)
+
+- [Quietforge Document Conversion API](https://apis.io/apis/quietforge/document-conversion-api/) — Converts Word, Excel, PowerPoint and OpenDocument files with LibreOffice (PDF is an output format, not an input; files capped at 15 MB), extracts per-page…
+- [Quietforge x402 Service Index API](https://apis.io/apis/quietforge/x402-service-index-api/) — A searchable, health-probed index of live x402 pay-per-call endpoints re-crawled from the Coinbase CDP and PayAI bazaars, with per-endpoint probe history…
+- [Quietforge Puzzle Generation API](https://apis.io/apis/quietforge/puzzle-generation-api/) — Generates sudoku puzzles with a proven-unique solution and a technique grade, and connected freeform crosswords from 8-30 caller-supplied clue/answer pairs…
+- [Quietforge Book Typesetting API](https://apis.io/apis/quietforge/book-typesetting-api/) — Typesets a prose manuscript into a print-ready book interior (chapter detection, mirrored margins, running heads, front matter and contents at 5x8, 5.25x8,…
+- [Quietforge Family Tree Chart API](https://apis.io/apis/quietforge/family-chart-api/) — Lays out a descendant, ancestor or hourglass family tree chart from people+families JSON or a GEDCOM file (up to 400 people, 10 generations), returned as…
+- [Quietforge Dataset Audit API](https://apis.io/apis/quietforge/dataset-audit-api/) — Audits a CSV or JSON-array dataset (up to 5 MB, 50,000 rows, 200 columns) for duplicate rows, missing values, inferred types, class imbalance, IQR outliers…
+
+### Published properties
+
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
+
+#### MCP servers (1)
+
+Model Context Protocol servers that expose the API to agents.
+
+- [Quietforge x402 Tools](https://apis.io/servers/quietforge/quietforge-x402-tools/)
+
+#### Security (2)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Quietforge Authentication](https://apis.io/security/quietforge/quietforge-authentication/)
+- [Quietforge Domain Security](https://apis.io/security/quietforge/quietforge-domain-security/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Quietforge Plans Pricing](https://apis.io/plans/quietforge/quietforge-plans-pricing/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://quietforge-studio.pages.dev/)
+- [Documentation](https://qf-api.quietforge-studio.workers.dev/docs)
+- [Pricing](https://qf-api.quietforge-studio.workers.dev/apis.json)
+
+## API Evangelist rating
+
+**Kin Score 33.8** — thin · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
+|---|---|
+| Discoverability | 81.7 |
+| Contract quality | 49.4 |
+| Contract governance | 0.0 |
+| Operational transparency | 0.0 |
+| Developer ergonomics | 31.0 |
+| Access clarity | 42.1 |
+
+**Agent readiness 40.4** — agent-ready (gated down from agent-native)
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | unknown |
+| Reversibility Documented | — |
+| MCP Server | documented (partial credit) |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | verified |
+| OpenAPI Examples | verified |
+| Rate Limit Signal | — |
+| Event Surface Described | — |
+| Agent Skills | — |
+| Well Known Catalog | yes |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+| Pagination Ratio | na |
+| Operation Distinctiveness | distinct |
+
+**Regulatory alignment 10.9** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/quietforge/](https://apis.io/providers/quietforge/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Quietforge Studio: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/quietforge/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
